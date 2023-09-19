@@ -3,7 +3,7 @@ const router = express.Router();
 
 router
     .get('/', (req, res) => {
-        res.send('test');
+        res.render('html/main.html')
     })
     .get('/test', (req, res) => {
         res.json({
