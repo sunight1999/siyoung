@@ -25,7 +25,6 @@
     <script type="text/javascript" src="static/heatmap.min.js"></script>
     
     <div id="map"></div>
-    <div id="heatmap"></div>
 
     <script>
         /* 카카오 지도 생성 */
@@ -38,49 +37,12 @@
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 
         /* 카카오 지도에 히트맵 오버레이 생성 */
-        // var position = new kakao.maps.LatLng(33.450701, 126.570667)
-        // var customOverlay = new kakao.maps.CustomOverlay({
-        //     position: position,
-        //     content: '<div id="heatmap"></div>'
-        // });
-        // customOverlay.setMap(map);
-
-        function GroundOverlay(bounds, element){
-            this.bounds = bounds;
-            this.node = element;
-        }
-        GroundOverlay.prototype = new kakao.maps.AbstractOverlay;
-        GroundOverlay.prototype.onAdd = function(){
-            var panel = this.getPanels().overlayLayer;
-            panel.appendChild(this.node);
-        };
-        GroundOverlay.prototype.draw = function(){
-            var projection = this.getProjection();
-            var ne = projection.pointFromCoords(this.bounds.getNorthEast());
-            var sw = projection.pointFromCoords(this.bounds.getSouthWest());
-
-            var width = ne.x - sw.x;
-            var height = sw.y - ne.y;
-            
-            this.node.style.top = ne.y+'px';
-            this.node.style.left = sw.x+'px';
-            this.node.style.width = width+'px';
-            this.node.style.height = height+'px';
-        };
-        GroundOverlay.prototype.onRemove = function() {
-            this.node.parentNode.removeChild(this.node);
-        };
-
-        var sw = new kakao.maps.LatLng(33.454701, 126.560667)
-            ne = new kakao.maps.LatLng(33.460701, 126.580667);
-
-        var bounds = new kakao.maps.LatLngBounds(sw, ne);
-
-        var overlay = new GroundOverlay(bounds, document.getElementById('heatmap'));
-        overlay.setMap(map);
-
-        // 그냥 구글맵으로...
-        // https://developers.google.com/maps/documentation/javascript/heatmaplayer?hl=ko
+        var position = new kakao.maps.LatLng(33.450701, 126.570667)
+        var customOverlay = new kakao.maps.CustomOverlay({
+            position: position,
+            content: '<div id="heatmap"></div>'
+        });
+        customOverlay.setMap(map);
 
         /* 히트맵 생성 */
         var heatmapInstance = h337.create({
