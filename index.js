@@ -1,10 +1,12 @@
 const express = require('express');
-const testRoute = require('./routes/test');
 const app = express();
 const ejs = require('ejs')
+const bodyParser = require('body-parser')
 
 const port = process.env.PORT || 3000;
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(express.json({
     limit: '50mb'
 }));
@@ -20,7 +22,8 @@ app.listen(port, () => {
 app.use(express.static(__dirname + '/public'));
 
 // 라우트 처리
-app.use('/', testRoute);
+app.use('/', require('./routes/mapRoutes'));
+app.use('/', require('./routes/dbRoutes'));
 
 // 에러 처리
 app.use((err, req, res, next) => {

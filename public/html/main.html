@@ -1,118 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <style>
-        html, body, #map, #heatmap{
-            width: 100%;
-            height: 100%;
-        }
+<html>
+  <head>
+    <title>Simple Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
-        #heatmap{
-            width: 840px;
-            height: 400px;
-        }
-
-        body{
-            margin: 0
-        }
-    </style>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=821a67737d688cec3fdf899d5d61e5bb"></script>
-    <script type="text/javascript" src="static/heatmap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
     
+  </head>
+  <body>
     <div id="map"></div>
-    <div id="heatmap"></div>
 
-    <script>
-        /* 카카오 지도 생성 */
-        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-        var options = { //지도를 생성할 때 필요한 기본 옵션
-            center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-            level: 3 //지도의 레벨(확대, 축소 정도)
-        };
-
-        var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-
-        /* 카카오 지도에 히트맵 오버레이 생성 */
-        // var position = new kakao.maps.LatLng(33.450701, 126.570667)
-        // var customOverlay = new kakao.maps.CustomOverlay({
-        //     position: position,
-        //     content: '<div id="heatmap"></div>'
-        // });
-        // customOverlay.setMap(map);
-
-        function GroundOverlay(bounds, element){
-            this.bounds = bounds;
-            this.node = element;
-        }
-        GroundOverlay.prototype = new kakao.maps.AbstractOverlay;
-        GroundOverlay.prototype.onAdd = function(){
-            var panel = this.getPanels().overlayLayer;
-            panel.appendChild(this.node);
-        };
-        GroundOverlay.prototype.draw = function(){
-            var projection = this.getProjection();
-            var ne = projection.pointFromCoords(this.bounds.getNorthEast());
-            var sw = projection.pointFromCoords(this.bounds.getSouthWest());
-
-            var width = ne.x - sw.x;
-            var height = sw.y - ne.y;
-            
-            this.node.style.top = ne.y+'px';
-            this.node.style.left = sw.x+'px';
-            this.node.style.width = width+'px';
-            this.node.style.height = height+'px';
-        };
-        GroundOverlay.prototype.onRemove = function() {
-            this.node.parentNode.removeChild(this.node);
-        };
-
-        var sw = new kakao.maps.LatLng(33.454701, 126.560667)
-            ne = new kakao.maps.LatLng(33.460701, 126.580667);
-
-        var bounds = new kakao.maps.LatLngBounds(sw, ne);
-
-        var overlay = new GroundOverlay(bounds, document.getElementById('heatmap'));
-        overlay.setMap(map);
-
-        // 그냥 구글맵으로...
-        // https://developers.google.com/maps/documentation/javascript/heatmaplayer?hl=ko
-
-        /* 히트맵 생성 */
-        var heatmapInstance = h337.create({
-            // only container is required, the rest will be defaults
-            container: document.getElementById('heatmap')
-        });
-
-        // now generate some random data
-        var points = [];
-        var max = 0;
-        var width = 840;
-        var height = 400;
-        var len = 200;
-
-        while (len--) {
-        var val = Math.floor(Math.random()*100);
-        max = Math.max(max, val);
-        var point = {
-            x: Math.floor(Math.random()*width),
-            y: Math.floor(Math.random()*height),
-            value: val
-        };
-        points.push(point);
-        }
-        // heatmap data format
-        var data = {
-        max: max,
-        data: points
-        };
-        // if you have a set of datapoints always use setData instead of addData
-        // for data initialization
-        heatmapInstance.setData(data);
-    </script>
+    <script type="text/javascript" src="/static/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="/js/map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAI90lBzmCg8-ahnEImjbJl8tPh2JLJOAA&libraries=visualization&callback=initMap"></script>
 </body>
 </html>
