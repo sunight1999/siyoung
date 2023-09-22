@@ -1,3 +1,5 @@
+const port = 4833;
+
 let map;
 let geo;
 
@@ -17,7 +19,7 @@ function onEndLoadMap(){
 
 function loadAnimalHeatmap(){
     $.ajax({
-        url: 'http://localhost:3000/query/getAllAnimalAddress',
+        url: 'http://localhost:' + port + '/query/getAllAnimalAddress',
         async: true,
         type: 'POST',
         success: res => {
@@ -45,7 +47,7 @@ function sleep(ms) {
 
 function setCoordinatesByAddress(table, addr_col){
     $.ajax({
-        url: 'http://localhost:3000/query/getAllAddress',
+        url: 'http://localhost:' + port + '/query/getAllAddress',
         async: true,
         type: 'POST',
         data: {
@@ -75,7 +77,7 @@ function setCoordinatesByAddress(table, addr_col){
 
 function setCoordinates(table, addr_col, addr, coords){
     $.ajax({
-        url: 'http://localhost:3000/query/setCoordinates',
+        url: 'http://localhost:' + port + '/query/setCoordinates',
         async: true,
         type: 'POST',
         data: {
